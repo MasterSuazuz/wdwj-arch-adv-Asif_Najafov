@@ -1,3 +1,11 @@
+The client communicates with a manager and submits a request. They then pay for a "subscription," and once payment is made, the manager initiates the order creation process. This "order" is not a one-time event.
+
+The order consists of a "dish" and a "delivery" component; these are "weak" entities, meaning they are subject to frequent changes.
+
+The central office oversees the managers, kitchens, and couriers. Therefore, the relationship is one-to-many. (The entire system is based on my personal experience working at a similar company.)
+
+____________________________
+
 OFFICE
 The main organizational unit. Stores the name, phone number, and address. It is connected to managers, kitchens, and couriers.
 
