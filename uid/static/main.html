@@ -185,7 +185,7 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="logo"><span class="mark">D</span> Dasturxon</div>
-    <div class="foot-note">Student project — Web Development (Java) coursework. Not a real business.</div>
+    <div class="foot-note">Asif Najafov project — Web Development (Java) coursework..</div>
   </div>
 </footer>
 
@@ -196,7 +196,7 @@
   document.querySelectorAll('.plan-actions a[href^="register.html?plan="]').forEach(link => {
     link.addEventListener("click", (e) => {
       const session = getSession();
-      if (!session) return; // not logged in — proceed to register.html as normal
+      if (!session) return; 
       e.preventDefault();
       const planId = new URL(link.href).searchParams.get("plan");
       subscribeCurrentUser(planId);

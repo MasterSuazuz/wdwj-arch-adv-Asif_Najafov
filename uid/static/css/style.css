@@ -1,16 +1,13 @@
-/* =========================================================
-   DASTURXON — home-cooked subscription delivery
-   Design tokens: chalkboard menu-board aesthetic
-   ========================================================= */
+
 
 :root{
-  --ink:        #1F2B1E;   /* basil-black, background */
-  --ink-soft:   #2A3728;   /* slightly lighter panel */
-  --chalk:      #F4EFE3;   /* warm off-white text */
-  --chalk-dim:  #C9CABB;   /* muted text on dark */
-  --mustard:    #E3A73B;   /* primary accent — price / CTA */
+  --ink:        #1F2B1E;   
+  --ink-soft:   #2A3728;  
+  --chalk:      #F4EFE3;  
+  --chalk-dim:  #C9CABB;  
+  --mustard:    #E3A73B;   
   --mustard-dark:#B8811F;
-  --brick:      #C6572A;   /* secondary accent — badges */
+  --brick:      #C6572A;  
   --line:       rgba(244,239,227,0.18);
   --line-strong:rgba(244,239,227,0.32);
 
@@ -60,7 +57,7 @@ p{ margin: 0 0 1em; color: var(--chalk-dim); max-width: 62ch; }
 
 .lede{ font-size: 1.15rem; color: var(--chalk); max-width: 46ch; }
 
-/* ---------- buttons ---------- */
+/*buttons*/
 .btn{
   display: inline-flex;
   align-items: center;
@@ -93,7 +90,7 @@ p{ margin: 0 0 1em; color: var(--chalk-dim); max-width: 62ch; }
 .btn-block{ width: 100%; }
 .btn-sm{ padding: 9px 18px; font-size: 0.88rem; }
 
-/* ---------- header / nav ---------- */
+/*header / nav*/
 .site-header{
   position: sticky; top:0; z-index: 40;
   background: rgba(31,43,30,0.92);
@@ -147,7 +144,7 @@ nav.main-nav a:hover, nav.main-nav a.active{
   }
 }
 
-/* ---------- hero ---------- */
+/* hero */
 .hero{ padding: 84px 0 60px; }
 .hero .wrap{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items:center; }
 .hero .eyebrow-note{ color: var(--mustard); font-size: 0.95rem; margin-bottom: 14px; }
@@ -160,13 +157,13 @@ nav.main-nav a:hover, nav.main-nav a.active{
   .hero{ padding: 48px 0 40px; }
 }
 
-/* ---------- sections ---------- */
+/* sections */
 section{ padding: 72px 0; border-top: 1px solid var(--line); }
 section:first-of-type{ border-top:none; }
 .section-head{ max-width: 640px; margin-bottom: 44px; }
 .section-head h2{ margin-bottom: 12px; }
 
-/* ---------- plan / menu cards ---------- */
+/*  plan / menu cards */
 .plans-grid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
@@ -214,7 +211,7 @@ section:first-of-type{ border-top:none; }
 }
 .plan-actions{ display:flex; flex-direction:column; gap:10px; margin-top:auto; }
 
-/* ---------- how-it-works ---------- */
+/*how-it-works */
 .how-grid{
   display:grid; grid-template-columns: repeat(4,1fr); gap: 24px;
 }
@@ -227,7 +224,7 @@ section:first-of-type{ border-top:none; }
 .about-columns{ display:grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items:start; }
 @media (max-width: 860px){ .about-columns{ grid-template-columns: 1fr; gap:36px; } }
 
-/* ---------- contact / manager card ---------- */
+/*contact / manager card*/
 .contact-panel{
   display:grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items:center;
   background: var(--ink-soft);
@@ -253,7 +250,7 @@ section:first-of-type{ border-top:none; }
 }
 .contact-links a:hover{ color: var(--mustard); }
 
-/* ---------- footer ---------- */
+/* footer*/
 footer.site-footer{
   border-top: 1px solid var(--line);
   padding: 40px 0;
@@ -263,9 +260,7 @@ footer.site-footer .wrap{
 }
 .foot-note{ color: var(--chalk-dim); font-size: 0.85rem; }
 
-/* =========================================================
-   AUTH PAGES (login / register)
-   ========================================================= */
+/*AUTH / LOGIN*/
 .auth-shell{
   min-height: calc(100vh - 76px);
   display:flex; align-items:center; justify-content:center;
@@ -319,9 +314,7 @@ footer.site-footer .wrap{
 }
 .plan-pick strong{ color: var(--mustard); }
 
-/* =========================================================
-   PROFILE PAGE
-   ========================================================= */
+/* profile */
 .profile-hero{
   padding: 52px 0 0;
 }
@@ -387,7 +380,7 @@ footer.site-footer .wrap{
 
 .card-actions{ display:flex; gap: 12px; flex-wrap:wrap; }
 
-/* ---------- modal ---------- */
+/* modal / toast */
 .modal-overlay{
   position: fixed; inset:0; background: rgba(15,20,14,0.72);
   display:none; align-items:center; justify-content:center; z-index: 100; padding: 20px;

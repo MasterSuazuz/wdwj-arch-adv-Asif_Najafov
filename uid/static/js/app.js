@@ -1,20 +1,8 @@
-/* =========================================================
-   DASTURXON — shared front-end logic (demo / mockup only)
-   Persists to localStorage so the flow survives page loads:
-   register -> login -> profile with an active subscription.
-   No real backend: this simulates the MANAGERS / PAYMENT /
-   ORDER / DISH / DELIVERY entities from the ERD for the demo.
-   ========================================================= */
-
 const DB_KEYS = {
   users: "dast_users",
   session: "dast_session"
 };
 
-/* Some browsers (notably Firefox) block localStorage on file:// pages
-   and throw instead of failing quietly. We detect that once, keep an
-   in-memory fallback so the current tab still works, and let pages
-   show a clear warning instead of silently doing nothing. */
 let STORAGE_OK = true;
 const MEMORY_DB = {};
 
@@ -66,8 +54,6 @@ function findUser(email){
   return readUsers().find(u => u.email.toLowerCase() === String(email).toLowerCase());
 }
 
-/* Builds a demo order (dishes + delivery) for a freshly bought plan,
-   mirroring ORDER -> contains -> DISH and ORDER -> has -> DELIVERY */
 function buildDemoOrder(planId){
   const plan = PLANS[planId] || PLANS["7"];
   const today = new Date();
@@ -148,9 +134,6 @@ function subscribeCurrentUser(planId){
 
 function logout(){ clearSession(); window.location.href = "main.html"; }
 
-/* Runs once per page load: writes and reads back a throwaway key to
-   find out — before the person fills any form — whether this browser
-   will actually let register/login persist across pages. */
 function checkStorageAvailable(){
   try{
     localStorage.setItem("dast_probe", "1");
@@ -175,7 +158,7 @@ function renderStorageWarningIfNeeded(){
   document.body.prepend(bar);
 }
 
-/* ---------- shared UI wiring, runs on every page ---------- */
+// shared UI wiring, runs on every page 
 document.addEventListener("DOMContentLoaded", () => {
   renderStorageWarningIfNeeded();
 
@@ -191,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (a.getAttribute("data-nav") === here.replace(".html", "")) a.classList.add("active");
   });
 
-  // Swap "My Profile" nav target isn't needed — profile.html itself
+  // Swap "My Profile" nav target isn't needed - profile.html itself
   // shows the logged-out state, so every page can link there directly.
 });
 
