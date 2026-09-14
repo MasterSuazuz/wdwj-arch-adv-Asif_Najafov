@@ -11,6 +11,27 @@ const DB_KEYS = {
   session: "dast_session"
 };
 
+/* Some browsers (notably Firefox) block localStorage on file:// pages
+   and throw instead of failing quietly. We detect that once, keep an
+   in-memory fallback so the current tab still works, and let pages
+   show a clear warning instead of silently doing nothing. */
+let STORAGE_OK = true;
+const MEMORY_DB = {};
+
+function safeGet(key){
+  try{ return localStorage.getItem(key); }
+  catch(e){ STORAGE_OK = false; return MEMORY_DB[key] ?? null; }
+}
+function safeSet(key, value){
+  try{ localStorage.setItem(key, value); return true; }
+  catch(e){ STORAGE_OK = false; MEMORY_DB[key] = value; return false; }
+}
+function safeRemove(key){
+  try{ localStorage.removeItem(key); }
+  catch(e){ STORAGE_OK = false; delete MEMORY_DB[key]; }
+}
+function isStorageBlocked(){ return !STORAGE_OK; }
+
 const PLANS = {
   "7":  { id: "7",  label: "7-day plan",  days: 7,  price: 1120000 },
   "14": { id: "14", label: "14-day plan", days: 14, price: 2249000 },
@@ -29,17 +50,17 @@ function fmtSum(n){
 }
 
 function readUsers(){
-  try{ return JSON.parse(localStorage.getItem(DB_KEYS.users)) || []; }
+  try{ return JSON.parse(safeGet(DB_KEYS.users)) || []; }
   catch(e){ return []; }
 }
-function writeUsers(list){ localStorage.setItem(DB_KEYS.users, JSON.stringify(list)); }
+function writeUsers(list){ return safeSet(DB_KEYS.users, JSON.stringify(list)); }
 
 function getSession(){
-  try{ return JSON.parse(localStorage.getItem(DB_KEYS.session)); }
+  try{ return JSON.parse(safeGet(DB_KEYS.session)); }
   catch(e){ return null; }
 }
-function setSession(email){ localStorage.setItem(DB_KEYS.session, JSON.stringify({ email })); }
-function clearSession(){ localStorage.removeItem(DB_KEYS.session); }
+function setSession(email){ return safeSet(DB_KEYS.session, JSON.stringify({ email })); }
+function clearSession(){ safeRemove(DB_KEYS.session); }
 
 function findUser(email){
   return readUsers().find(u => u.email.toLowerCase() === String(email).toLowerCase());
@@ -66,6 +87,10 @@ function buildDemoOrder(planId){
 }
 
 function registerUser({ fullName, email, phone, password, planId }){
+  if (isStorageBlocked()){
+    return { ok: false, error: "Your browser is blocking local storage for this page (see the banner above), so the account can't be saved. Open the project through a local server instead." };
+  }
+
   const users = readUsers();
   if (findUser(email)) return { ok: false, error: "An account with this email already exists." };
 
@@ -85,16 +110,23 @@ function registerUser({ fullName, email, phone, password, planId }){
     order: buildDemoOrder(plan.id)
   };
   users.push(user);
-  writeUsers(users);
-  setSession(email);
+  const savedUsers = writeUsers(users);
+  const savedSession = setSession(email);
+  if (!savedUsers || !savedSession){
+    return { ok: false, error: "Couldn't save the account in this browser. Open the project through a local server and try again." };
+  }
   return { ok: true };
 }
 
 function loginUser({ email, password }){
+  if (isStorageBlocked()){
+    return { ok: false, error: "Your browser is blocking local storage for this page (see the banner above), so we can't check saved accounts here." };
+  }
   const user = findUser(email);
   if (!user) return { ok: false, error: "We couldn't find an account with that email." };
   if (user.password !== password) return { ok: false, error: "Incorrect password. Please try again." };
-  setSession(email);
+  const saved = setSession(email);
+  if (!saved) return { ok: false, error: "Couldn't start a session in this browser. Open the project through a local server and try again." };
   return { ok: true };
 }
 
@@ -116,8 +148,37 @@ function subscribeCurrentUser(planId){
 
 function logout(){ clearSession(); window.location.href = "main.html"; }
 
+/* Runs once per page load: writes and reads back a throwaway key to
+   find out — before the person fills any form — whether this browser
+   will actually let register/login persist across pages. */
+function checkStorageAvailable(){
+  try{
+    localStorage.setItem("dast_probe", "1");
+    localStorage.removeItem("dast_probe");
+    return true;
+  }catch(e){
+    STORAGE_OK = false;
+    return false;
+  }
+}
+
+function renderStorageWarningIfNeeded(){
+  if (checkStorageAvailable()) return;
+  const bar = document.createElement("div");
+  bar.style.cssText =
+    "background:#C6572A;color:#F4EFE3;font:600 13px/1.5 var(--sans),sans-serif;" +
+    "text-align:center;padding:10px 16px;position:sticky;top:0;z-index:200;";
+  bar.textContent =
+    "This browser is blocking local storage for files opened directly (file://). " +
+    "Registration/profile data won't be saved. Open the project through a local " +
+    "server instead — see uid/readme.md — or try Chrome/Edge.";
+  document.body.prepend(bar);
+}
+
 /* ---------- shared UI wiring, runs on every page ---------- */
 document.addEventListener("DOMContentLoaded", () => {
+  renderStorageWarningIfNeeded();
+
   const toggle = document.querySelector(".nav-toggle");
   const nav = document.querySelector("nav.main-nav");
   if (toggle && nav){
