@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — Dasturxon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="main.html" class="logo"><span class="mark">D</span> Dasturxon</a>
+    <nav class="main-nav">
+      <a href="main.html" data-nav="main">Home</a>
+      <a href="main.html#about" data-nav="main">About</a>
+      <a href="profile.html" data-nav="profile">My Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Welcome back</h1>
+    <p class="auth-sub">Log in to view your subscription and track your delivery.</p>
+
+    <div id="formMsg" class="form-msg error"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+        <div class="field-error">Please enter your email.</div>
+      </div>
+      <div class="field" id="f-pass">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Your password" autocomplete="current-password">
+        <div class="field-error">Please enter your password.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
+
+    <div class="auth-switch">New to Dasturxon? <a href="register.html">Create an account</a></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  const form = document.getElementById("loginForm");
+  const formMsg = document.getElementById("formMsg");
+
+  function setError(fieldId, on){
+    document.getElementById(fieldId).classList.toggle("has-error", on);
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    formMsg.classList.remove("show");
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    let ok = true;
+    setError("f-email", !email); if (!email) ok = false;
+    setError("f-pass", !password); if (!password) ok = false;
+    if (!ok) return;
+
+    const result = loginUser({ email, password });
+    if (!result.ok){
+      formMsg.textContent = result.error;
+      formMsg.classList.add("show", "error");
+      return;
+    }
+
+    formMsg.textContent = "Welcome back! Redirecting…";
+    formMsg.classList.add("show", "success");
+    formMsg.classList.remove("error");
+    setTimeout(() => { window.location.href = "profile.html"; }, 600);
+  });
+</script>
+</body>
+</html>

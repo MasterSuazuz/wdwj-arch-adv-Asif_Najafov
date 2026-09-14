@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dasturxon — home-cooked meals, delivered daily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="main.html" class="logo"><span class="mark">D</span> Dasturxon</a>
+    <nav class="main-nav">
+      <a href="main.html" data-nav="main" class="active">Home</a>
+      <a href="main.html#about" data-nav="main">About</a>
+      <a href="profile.html" data-nav="profile">My Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow-note">Tashkent's home-style meal subscription</div>
+      <h1>Home-cooked meals, delivered to your door every day.</h1>
+      <p class="lede">Pick a plan, tell us what you like, and a courier from your neighborhood office brings a fresh, home-style meal — on time, every time.</p>
+      <div class="hero-actions">
+        <a href="#plans" class="btn btn-primary">See subscription plans</a>
+        <a href="#contact" class="btn btn-outline">Talk to a manager</a>
+      </div>
+    </div>
+    <div>
+      <svg class="bowl-art" viewBox="0 0 420 340" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="210" cy="300" rx="150" ry="16" fill="#16200F" opacity="0.5"/>
+        <path d="M70 150 a140 90 0 0 0 280 0 z" fill="#2A3728" stroke="#E3A73B" stroke-width="2"/>
+        <ellipse cx="210" cy="150" rx="140" ry="26" fill="#F4EFE3"/>
+        <circle cx="150" cy="145" r="16" fill="#C6572A"/>
+        <circle cx="205" cy="138" r="12" fill="#E3A73B"/>
+        <circle cx="255" cy="148" r="14" fill="#7A9257"/>
+        <circle cx="225" cy="160" r="10" fill="#E3A73B"/>
+        <circle cx="175" cy="160" r="9" fill="#C6572A"/>
+        <rect x="205" y="40" width="6" height="70" rx="3" fill="#C9CABB"/>
+        <rect x="245" y="55" width="6" height="55" rx="3" fill="#C9CABB"/>
+        <path d="M170 40 q6 30 0 55" stroke="#C9CABB" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="plans">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Choose your plan</h2>
+      <p>Every plan includes a daily home-style meal, allergy-aware kitchens, and delivery tracking from order to doorstep.</p>
+    </div>
+
+    <div class="plans-grid">
+
+      <article class="plan-card">
+        <div class="plan-days">7 <span>days</span></div>
+        <div class="plan-price">1 120 000 <small>UZS total</small></div>
+        <div class="plan-sub">160 000 UZS / day</div>
+        <hr class="ticket-divider">
+        <ul class="plan-features">
+          <li>One home-style meal per day</li>
+          <li>Allergy notes reviewed by the kitchen</li>
+          <li>Live delivery tracking</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <div class="plan-actions">
+          <a href="register.html?plan=7" class="btn btn-primary btn-block">Choose this plan</a>
+          <a href="#contact" class="btn btn-outline btn-block btn-sm">Contact a manager</a>
+        </div>
+      </article>
+
+      <article class="plan-card is-popular">
+        <div class="plan-badge">Most popular</div>
+        <div class="plan-days">14 <span>days</span></div>
+        <div class="plan-price">2 249 000 <small>UZS total</small></div>
+        <div class="plan-sub">~160 600 UZS / day</div>
+        <hr class="ticket-divider">
+        <ul class="plan-features">
+          <li>One home-style meal per day</li>
+          <li>Priority kitchen for allergy requests</li>
+          <li>Live delivery tracking</li>
+          <li>Free delivery-time changes</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <div class="plan-actions">
+          <a href="register.html?plan=14" class="btn btn-primary btn-block">Choose this plan</a>
+          <a href="#contact" class="btn btn-outline btn-block btn-sm">Contact a manager</a>
+        </div>
+      </article>
+
+      <article class="plan-card">
+        <div class="plan-days">30 <span>days</span></div>
+        <div class="plan-price">4 270 000 <small>UZS total</small></div>
+        <div class="plan-sub">~142 300 UZS / day</div>
+        <hr class="ticket-divider">
+        <ul class="plan-features">
+          <li>One home-style meal per day</li>
+          <li>Lowest price per day</li>
+          <li>Dedicated manager on request</li>
+          <li>Live delivery tracking</li>
+          <li>Pause or cancel anytime</li>
+        </ul>
+        <div class="plan-actions">
+          <a href="register.html?plan=30" class="btn btn-primary btn-block">Choose this plan</a>
+          <a href="#contact" class="btn btn-outline btn-block btn-sm">Contact a manager</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="about-columns">
+      <div>
+        <h2>How Dasturxon works</h2>
+        <p>Dasturxon is organized around a single office that coordinates managers, kitchens, and couriers, so every order gets the same attention from request to doorstep — no matter which neighborhood you're in.</p>
+        <p>When you reach out, a manager sets up your subscription and creates your order. The kitchen prepares each dish around your allergy notes, and a courier from your office handles the delivery and keeps the status up to date.</p>
+      </div>
+      <div class="how-grid">
+        <div class="how-step">
+          <div class="num">1</div>
+          <h3>You reach out</h3>
+          <p>Message a manager and pick a plan that fits your days.</p>
+        </div>
+        <div class="how-step">
+          <div class="num">2</div>
+          <h3>Manager confirms</h3>
+          <p>Payment is confirmed and your order is created.</p>
+        </div>
+        <div class="how-step">
+          <div class="num">3</div>
+          <h3>Kitchen prepares</h3>
+          <p>Dishes are prepared around your allergy notes.</p>
+        </div>
+        <div class="how-step">
+          <div class="num">4</div>
+          <h3>Courier delivers</h3>
+          <p>Track the delivery in your profile in real time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Talk to a manager</h2>
+      <p>Have questions about a plan, allergies, or delivery times? A manager from your local office can help right away.</p>
+    </div>
+    <div class="contact-panel">
+      <div>
+        <div class="manager-card">
+          <div class="manager-avatar">MS</div>
+          <div>
+            <h3 style="margin-bottom:2px;">Client manager</h3>
+            <p style="margin:0;">Dasturxon central office</p>
+          </div>
+        </div>
+        <div class="contact-links">
+          <a href="tel:+998917960784">&#9742; +998 91 796 07 84</a>
+          <a href="https://t.me/MasterSuaz" target="_blank" rel="noopener">&#9993; Telegram — @MasterSuaz</a>
+        </div>
+      </div>
+      <div>
+        <p class="lede" style="margin-bottom:18px;">Send a request and a manager will confirm your plan, set up payment, and create your first order the same day.</p>
+        <a href="https://t.me/MasterSuaz" target="_blank" rel="noopener" class="btn btn-primary btn-block">Message on Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="logo"><span class="mark">D</span> Dasturxon</div>
+    <div class="foot-note">Student project — Web Development (Java) coursework. Not a real business.</div>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  // If the visitor is already logged in, "Choose this plan" activates
+  // the subscription immediately instead of sending them to register.
+  document.querySelectorAll('.plan-actions a[href^="register.html?plan="]').forEach(link => {
+    link.addEventListener("click", (e) => {
+      const session = getSession();
+      if (!session) return; // not logged in — proceed to register.html as normal
+      e.preventDefault();
+      const planId = new URL(link.href).searchParams.get("plan");
+      subscribeCurrentUser(planId);
+      window.location.href = "profile.html";
+    });
+  });
+</script>
+</body>
+</html>

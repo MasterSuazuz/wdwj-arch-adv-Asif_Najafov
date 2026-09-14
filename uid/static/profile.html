@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile — Dasturxon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="main.html" class="logo"><span class="mark">D</span> Dasturxon</a>
+    <nav class="main-nav">
+      <a href="main.html" data-nav="main">Home</a>
+      <a href="main.html#about" data-nav="main">About</a>
+      <a href="profile.html" data-nav="profile" class="active">My Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<!-- LOGGED-OUT STATE -->
+<div id="loggedOut" class="empty-state" style="display:none;">
+  <h2>You're not logged in yet</h2>
+  <p>Create an account or log in to see your active subscription, upcoming order, and delivery status.</p>
+  <div class="empty-actions">
+    <a href="register.html" class="btn btn-primary">Register</a>
+    <a href="login.html" class="btn btn-outline">Log in</a>
+  </div>
+</div>
+
+<!-- LOGGED-IN STATE -->
+<div id="loggedIn" style="display:none;">
+  <section class="profile-hero" style="border-top:none; padding-bottom: 20px;">
+    <div class="wrap">
+      <div class="profile-head">
+        <div class="profile-avatar" id="avatarInitial">A</div>
+        <div>
+          <h2 id="userName" style="margin-bottom:2px;">—</h2>
+          <p style="margin:0;" id="userEmail">—</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 12px;">
+    <div class="wrap">
+
+      <div class="sub-card">
+        <div class="sub-card-top">
+          <div>
+            <div class="foot-note" style="margin-bottom:6px;">Active subscription</div>
+            <h3 id="planLabel" style="margin-bottom:2px;">—</h3>
+            <p style="margin:0;" id="planPrice">—</p>
+          </div>
+          <span class="status-pill dot">Active</span>
+        </div>
+
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+        <div class="progress-label" id="progressLabel">—</div>
+
+        <div class="order-card">
+          <h3>Current order <span id="orderIdLabel" style="color:var(--chalk-dim); font-weight:400;"></span></h3>
+          <div class="order-meta" id="orderMeta">—</div>
+
+          <ul class="dish-list" id="dishList"></ul>
+
+          <div class="foot-note" style="margin-bottom:10px;">Delivery</div>
+          <div class="delivery-grid">
+            <div class="delivery-stat">
+              <div class="label">Status</div>
+              <div class="value" id="dStatus">—</div>
+            </div>
+            <div class="delivery-stat">
+              <div class="label">Assigned time</div>
+              <div class="value" id="dAssigned">—</div>
+            </div>
+            <div class="delivery-stat">
+              <div class="label">Delivered time</div>
+              <div class="value" id="dDelivered">—</div>
+            </div>
+            <div class="delivery-stat">
+              <div class="label">Delivery address</div>
+              <div class="value" id="dAddress">—</div>
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-outline btn-sm" onclick="openChangeModal()">Request a change</button>
+            <a href="main.html#contact" class="btn btn-outline btn-sm">Message manager</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-card">
+        <div class="sub-card-top">
+          <div>
+            <div class="foot-note" style="margin-bottom:6px;">Looking for something else?</div>
+            <h3 style="margin-bottom:2px;">Browse other plans</h3>
+          </div>
+        </div>
+        <p style="margin-top:14px;">You can switch to a longer plan at any time — your next order will be created automatically.</p>
+        <div class="card-actions">
+          <a href="main.html#plans" class="btn btn-primary btn-sm">See plans</a>
+          <button class="btn btn-outline btn-sm" onclick="logout()">Log out</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="logo"><span class="mark">D</span> Dasturxon</div>
+    <div class="foot-note">Student project — Web Development (Java) coursework. Not a real business.</div>
+  </div>
+</footer>
+
+<!-- CHANGE REQUEST MODAL (advanced scenario) -->
+<div class="modal-overlay" id="changeModal">
+  <div class="modal-box">
+    <h3>Request a change</h3>
+    <p class="auth-sub">This goes straight to your manager, who will update the order and let the kitchen and courier know.</p>
+    <div class="field">
+      <label for="allergyInput">Allergy or dietary notes</label>
+      <input type="text" id="allergyInput" placeholder="e.g. no peanuts, lactose-free">
+    </div>
+    <div class="field">
+      <label for="addressInput">Delivery address</label>
+      <input type="text" id="addressInput" placeholder="Street, house, district">
+    </div>
+    <div class="modal-close-row">
+      <button class="btn btn-outline btn-sm" onclick="closeModal('changeModal')">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="submitChangeRequest()">Send to manager</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  const session = getSession();
+  const users = readUsers();
+  const user = session ? users.find(u => u.email.toLowerCase() === session.email.toLowerCase()) : null;
+
+  if (!user){
+    document.getElementById("loggedOut").style.display = "block";
+  } else {
+    document.getElementById("loggedIn").style.display = "block";
+    renderProfile(user);
+  }
+
+  function renderProfile(u){
+    document.getElementById("avatarInitial").textContent = u.fullName.trim().charAt(0).toUpperCase() || "A";
+    document.getElementById("userName").textContent = u.fullName;
+    document.getElementById("userEmail").textContent = u.email;
+
+    const sub = u.subscription;
+    document.getElementById("planLabel").textContent = sub.planLabel;
+    document.getElementById("planPrice").textContent = fmtSum(sub.price) + " · started " + sub.startDate;
+
+    const pct = Math.min(100, Math.round((sub.daysUsed / sub.days) * 100));
+    document.getElementById("progressFill").style.width = pct + "%";
+    document.getElementById("progressLabel").textContent =
+      "Day " + sub.daysUsed + " of " + sub.days;
+
+    const order = u.order;
+    document.getElementById("orderIdLabel").textContent = "#" + order.orderId;
+    document.getElementById("orderMeta").textContent =
+      "Placed on " + order.orderDate + " · Status: " + order.status;
+
+    const list = document.getElementById("dishList");
+    list.innerHTML = "";
+    order.dishes.forEach(d => {
+      const li = document.createElement("li");
+      li.innerHTML =
+        "<span>" + d.name + (d.allergy ? "<span class='dish-allergy'>" + d.allergy + "</span>" : "") + "</span>" +
+        "<span class='dish-qty'>x" + d.qty + "</span>";
+      list.appendChild(li);
+    });
+
+    document.getElementById("dStatus").textContent = order.delivery.status;
+    document.getElementById("dAssigned").textContent = order.delivery.assignedTime;
+    document.getElementById("dDelivered").textContent = order.delivery.deliveredTime;
+    document.getElementById("dAddress").textContent = order.delivery.clientAddress;
+
+    document.getElementById("addressInput").value = order.delivery.clientAddress;
+  }
+
+  function openChangeModal(){ openModal("changeModal"); }
+
+  function submitChangeRequest(){
+    const allergy = document.getElementById("allergyInput").value.trim();
+    const address = document.getElementById("addressInput").value.trim();
+
+    const allUsers = readUsers();
+    const current = allUsers.find(x => x.email.toLowerCase() === user.email.toLowerCase());
+    if (current){
+      if (address) current.order.delivery.clientAddress = address;
+      if (allergy) current.order.dishes[0].allergy = allergy;
+      writeUsers(allUsers);
+      renderProfile(current);
+    }
+    closeModal("changeModal");
+    showToast("Sent to your manager — the order has been updated.");
+  }
+</script>
+</body>
+</html>

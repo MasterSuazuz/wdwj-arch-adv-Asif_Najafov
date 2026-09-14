@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create your account — Dasturxon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="main.html" class="logo"><span class="mark">D</span> Dasturxon</a>
+    <nav class="main-nav">
+      <a href="main.html" data-nav="main">Home</a>
+      <a href="main.html#about" data-nav="main">About</a>
+      <a href="profile.html" data-nav="profile">My Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </div>
+</header>
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="auth-sub">Register once — a manager will set up your first order right after.</p>
+
+    <div id="planPick" class="plan-pick" style="display:none;">
+      Selected plan: <strong id="planPickLabel"></strong>
+    </div>
+
+    <div id="formMsg" class="form-msg error"></div>
+
+    <form id="registerForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="fullName">Full name</label>
+        <input type="text" id="fullName" placeholder="Aziza Yusupova" autocomplete="name">
+        <div class="field-error">Please enter your full name.</div>
+      </div>
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+        <div class="field-error">Please enter a valid email address.</div>
+      </div>
+      <div class="field" id="f-phone">
+        <label for="phone">Phone number</label>
+        <input type="tel" id="phone" placeholder="+998 90 123 45 67" autocomplete="tel">
+        <div class="field-error">Please enter your phone number.</div>
+      </div>
+      <div class="field" id="f-pass">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="At least 6 characters" autocomplete="new-password">
+        <div class="field-error">Password must be at least 6 characters.</div>
+      </div>
+      <div class="field" id="f-pass2">
+        <label for="password2">Confirm password</label>
+        <input type="password" id="password2" placeholder="Repeat password" autocomplete="new-password">
+        <div class="field-error">Passwords don't match.</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Create account</button>
+    </form>
+
+    <div class="auth-switch">Already have an account? <a href="login.html">Log in</a></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const planId = params.get("plan") && PLANS[params.get("plan")] ? params.get("plan") : "7";
+  const plan = PLANS[planId];
+  document.getElementById("planPick").style.display = "flex";
+  document.getElementById("planPickLabel").textContent = plan.label + " — " + fmtSum(plan.price);
+
+  const form = document.getElementById("registerForm");
+  const formMsg = document.getElementById("formMsg");
+
+  function setError(fieldId, on){
+    document.getElementById(fieldId).classList.toggle("has-error", on);
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    formMsg.classList.remove("show");
+
+    const fullName = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value;
+    const password2 = document.getElementById("password2").value;
+
+    let ok = true;
+    setError("f-name", !fullName); if (!fullName) ok = false;
+    setError("f-email", !/^\S+@\S+\.\S+$/.test(email)); if (!/^\S+@\S+\.\S+$/.test(email)) ok = false;
+    setError("f-phone", !phone); if (!phone) ok = false;
+    setError("f-pass", password.length < 6); if (password.length < 6) ok = false;
+    setError("f-pass2", password !== password2); if (password !== password2) ok = false;
+
+    if (!ok) return;
+
+    const result = registerUser({ fullName, email, phone, password, planId });
+    if (!result.ok){
+      formMsg.textContent = result.error;
+      formMsg.classList.add("show", "error");
+      formMsg.classList.remove("success");
+      return;
+    }
+
+    formMsg.textContent = "Account created! Redirecting to your profile…";
+    formMsg.classList.add("show", "success");
+    formMsg.classList.remove("error");
+    setTimeout(() => { window.location.href = "profile.html"; }, 800);
+  });
+</script>
+</body>
+</html>
